@@ -1,0 +1,5 @@
+extends = "base.toml"
+experiment = "regularizacion"
+name = "batchnorm_dropout"
+batchnorm = true
+dropout = 0.3

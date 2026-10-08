@@ -1,0 +1,21 @@
+# Línea base. Todas las demás configuraciones parten de aquí y cambian pocas claves.
+name = "base"
+experiment = "linea-base"
+
+image_size = 128
+augment = "none"
+batch_size = 32
+
+blocks = 4
+base_channels = 32
+kernel_size = 3
+pooling = "max"
+batchnorm = false
+head_grid = 1
+hidden_units = 128
+dropout = 0.0
+
+epochs = 30
+learning_rate = 1e-3
+weight_decay = 0.0
+class_weights = false

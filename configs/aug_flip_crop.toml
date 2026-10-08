@@ -1,0 +1,4 @@
+extends = "base.toml"
+experiment = "augmentation"
+name = "aug_flip_crop"
+augment = "flip_crop"

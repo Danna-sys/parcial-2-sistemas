@@ -1,0 +1,4 @@
+extends = "base.toml"
+experiment = "resolucion"
+name = "res224"
+image_size = 224

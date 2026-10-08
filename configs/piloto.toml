@@ -1,0 +1,5 @@
+# Piloto de la línea base con más épocas para decidir el presupuesto común.
+extends = "base.toml"
+name = "piloto"
+experiment = "piloto"
+epochs = 60

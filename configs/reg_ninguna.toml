@@ -1,0 +1,4 @@
+extends = "base.toml"
+experiment = "regularizacion"
+name = "sin_reg"
+

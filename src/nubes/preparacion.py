@@ -60,7 +60,8 @@ def find_class_dirs(source: Path) -> dict[str, Path]:
     """Ubica las 11 carpetas de clase dentro de ``source``, sin importar cuán anidadas estén."""
     wanted = {code.lower(): code for code in CODES}
     found: dict[str, Path] = {}
-    for directory in sorted(p for p in source.rglob("*") if p.is_dir()):
+    directories = sorted(p for p in source.rglob("*") if p.is_dir() and "__MACOSX" not in p.parts)
+    for directory in directories:
         code = wanted.get(directory.name.lower())
         if code is not None and code not in found:
             found[code] = directory
@@ -74,7 +75,11 @@ def scan_images(source: Path) -> pd.DataFrame:
     """Una fila por imagen legible: ruta relativa, clase, tamaño y modo."""
     rows = []
     for label, (code, directory) in enumerate(find_class_dirs(source).items()):
-        files = sorted(p for p in directory.rglob("*") if p.suffix.lower() in IMAGE_SUFFIXES)
+        files = sorted(
+            p
+            for p in directory.rglob("*")
+            if p.suffix.lower() in IMAGE_SUFFIXES and not p.name.startswith("._")
+        )
         for file in files:
             with Image.open(file) as image:
                 rows.append(

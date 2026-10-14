@@ -6,7 +6,7 @@ El objetivo no es la mayor accuracy. Es usar una CNN sencilla para entender qué
 
 ## El problema
 
-[CCSN](https://doi.org/10.7910/DVN/CADDPD) reúne 2543 fotografías de nubes tomadas desde el suelo. Son imágenes JPEG de 256×256 en 11 clases: los diez géneros de la clasificación meteorológica y las estelas de condensación.
+[CCSN](https://doi.org/10.7910/DVN/CADDPD) reúne 2543 fotografías de nubes tomadas desde el suelo. Son imágenes JPEG de 400×400, salvo 211 de 256×256 que están en `Cc`, `Cs` y `Ns`. Hay 11 clases: los diez géneros de la clasificación meteorológica y las estelas de condensación.
 
 | Código | Género | Nivel | Forma | Imágenes |
 |---|---|---|---|---|
@@ -159,7 +159,7 @@ Lo que cambia responde a que CCSN es otro problema:
 
 - **Varias semillas por configuración.** Galaxy3 tiene 917 imágenes de validation para 3 clases. Aquí hay unas 380 para 11. Con una sola semilla casi ninguna diferencia sería interpretable.
 - **Duplicados antes del split.** La preparación busca copias y recompresiones de una misma fotografía y no las separa entre splits.
-- **Manifest en vez de carpetas exportadas.** Las imágenes se leen a 256 píxeles y la resolución es un parámetro de la corrida. Un experimento de resolución no obliga a regenerar datos.
+- **Manifest en vez de carpetas exportadas.** Las imágenes se leen en su tamaño original y la resolución es un parámetro de la corrida. Un experimento de resolución no obliga a regenerar datos.
 - **Arquitectura parametrizada.** Profundidad, ancho, kernel, pooling y la rejilla de la cabeza son claves de configuración porque son las variables del problema.
 - **Campo receptivo como dato.** `inspeccion.receptive_field` calcula qué fracción de la imagen ve cada bloque. Es la medida que conecta la arquitectura con la pregunta sobre textura local y organización global.
 - **Referencia sin red.** Un k vecinos sobre rasgos globales da un piso y una matriz de confusión previa para comparar con la de la CNN.

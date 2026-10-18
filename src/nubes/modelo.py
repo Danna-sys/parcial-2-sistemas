@@ -1,3 +1,4 @@
+
 """CloudCNN: CNN propia con profundidad, ancho, pooling y regularización configurables."""
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ from nubes.config import POOLINGS
 
 def stage_channels(blocks: int, base_channels: int, max_channels: int) -> list[int]:
     """Canales de salida de cada bloque: se duplican hasta el tope."""
-    return [min(base_channels * 2**i, max_channels) for i in range(blocks)]
+    return [min(base_channels * 2**i, max_channels) for i in range(blocks)]  # calcula los canales de salida de cada bloque según la profundidad y los límites establecidos
 
 
 def _stage(
@@ -29,18 +30,18 @@ def _stage(
         stride=2 if pooling == "stride" else 1,
         padding=kernel_size // 2,
         bias=not batchnorm,
-    )
+    )  # crea la capa convolucional con los canales, el kernel y el stride configurados
     down: nn.Module = {
         "max": nn.MaxPool2d(2),
         "avg": nn.AvgPool2d(2),
         "stride": nn.Identity(),
-    }[pooling]
+    }[pooling]  # selecciona el método de reducción espacial según la configuración
     return nn.Sequential(
         OrderedDict(
-            conv=conv,
-            norm=nn.BatchNorm2d(out_channels) if batchnorm else nn.Identity(),
-            act=nn.ReLU(),
-            down=down,
+            conv=conv,  # aplica la convolución para extraer características
+            norm=nn.BatchNorm2d(out_channels) if batchnorm else nn.Identity(),  # normaliza las activaciones si batchnorm está habilitado
+            act=nn.ReLU(),  # aplica la función de activación relu
+            down=down,  # reduce las dimensiones espaciales cuando corresponde
         )
     )
 
@@ -77,34 +78,34 @@ class CloudCNN(nn.Module):
     ) -> None:
         super().__init__()
         if num_classes < 2:
-            raise ValueError("num_classes debe ser >= 2")
+            raise ValueError("num_classes debe ser >= 2")  # verifica que haya al menos dos clases para clasificar
         if pooling not in POOLINGS:
-            raise ValueError(f"pooling debe estar en {POOLINGS}")
+            raise ValueError(f"pooling debe estar en {POOLINGS}")  # comprueba que el método de pooling esté permitido
         if not 0.0 <= dropout < 1.0:
-            raise ValueError("dropout debe estar en [0, 1)")
+            raise ValueError("dropout debe estar en [0, 1)")  # valida que la probabilidad de dropout esté dentro del intervalo permitido
 
-        outputs = stage_channels(blocks, base_channels, max_channels)
-        inputs = [3, *outputs[:-1]]
+        outputs = stage_channels(blocks, base_channels, max_channels)  # calcula los canales de salida de los bloques convolucionales
+        inputs = [3, *outputs[:-1]]  # define los canales de entrada de cada bloque considerando las imágenes rgb
         self.stages = nn.Sequential(
             OrderedDict(
                 (f"s{i}", _stage(c_in, c_out, kernel_size, pooling, batchnorm))
                 for i, (c_in, c_out) in enumerate(zip(inputs, outputs, strict=True), start=1)
             )
-        )
-        self.squeeze = nn.AdaptiveAvgPool2d(head_grid)
+        )  # construye los bloques convolucionales en el orden establecido
+        self.squeeze = nn.AdaptiveAvgPool2d(head_grid)  # ajusta el mapa de características a una rejilla espacial fija
         self.head = nn.Sequential(
             OrderedDict(
-                flatten=nn.Flatten(),
-                fc1=nn.Linear(outputs[-1] * head_grid**2, hidden_units),
-                act=nn.ReLU(),
-                drop=nn.Dropout(dropout) if dropout > 0 else nn.Identity(),
-                fc2=nn.Linear(hidden_units, num_classes),
+                flatten=nn.Flatten(),  # transforma los mapas de características en un vector
+                fc1=nn.Linear(outputs[-1] * head_grid**2, hidden_units),  # conecta las características con una capa densa oculta
+                act=nn.ReLU(),  # aplica relu a la salida de la capa oculta
+                drop=nn.Dropout(dropout) if dropout > 0 else nn.Identity(),  # aplica dropout si está configurado
+                fc2=nn.Linear(hidden_units, num_classes),  # produce una salida por cada clase
             )
-        )
+        )  # construye la cabeza clasificadora de la cnn
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.head(self.squeeze(self.stages(x)))
+        return self.head(self.squeeze(self.stages(x)))  # pasa la entrada por los bloques, el pooling adaptativo y el clasificador
 
 
 def count_parameters(model: nn.Module) -> int:
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)  # cuenta los parámetros que pueden actualizarse durante el entrenamiento

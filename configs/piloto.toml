@@ -2,4 +2,4 @@
 extends = "base.toml"
 name = "piloto"
 experiment = "piloto"
-epochs = 60
+epochs = 5

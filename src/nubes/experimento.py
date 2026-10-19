@@ -17,9 +17,9 @@ from torch import nn
 
 from nubes.config import RunConfig, diff
 from nubes.datos import CloudDataset, load_manifest, make_loader, make_loaders
-from nubes.metricas import Report, build_report    #reporte de metricas
-from nubes.modelo import CloudCNN, count_parameters     #modelo y conteo de parametros.
-from nubes.motor import Pass, evaluate, fit     #loop de entrenamiento y evaluaciaocn
+from nubes.metricas import Report, build_report  #reporte de metricas
+from nubes.modelo import CloudCNN, count_parameters  #modelo y conteo de parametros.
+from nubes.motor import Pass, evaluate, fit  #loop de entrenamiento y evaluaciaocn
 from nubes.utilidades import PROJECT_ROOT, pick_device, read_json, seed_everything, write_json
 
 CONFIG_FILE = "config.json"    #la configuracion usada

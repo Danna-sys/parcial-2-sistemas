@@ -1,8 +1,8 @@
 import pytest
 import torch
 
-from nubes.datos import build_transform, make_dataset, make_loaders   #lo que se prueba   
-   
+from nubes.datos import build_transform, make_dataset, make_loaders  #lo que se prueba   
+
 
 def test_dataset_item_shape_and_label(config):  # config es fixture de conftest.py: configuracion diminuta con datos sinteticos
     dataset = make_dataset(config, "val")    # Dataset de validation

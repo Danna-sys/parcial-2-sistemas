@@ -8,10 +8,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
-from matplotlib.figure import Figure    # Figure: el tipo de objeto que devuelve cada funcion
-from matplotlib.ticker import MaxNLocator   # MaxNLocator para que el eje de épocas muestre solo números enteros
+from matplotlib.figure import Figure  # Figure: el tipo de objeto que devuelve cada funcion
+from matplotlib.ticker import (
+    MaxNLocator,  # MaxNLocator para que el eje de épocas muestre solo números enteros
+)
 
-from nubes.experimento import RunResult   #tipo de resultado de una corrida
+from nubes.experimento import RunResult  #tipo de resultado de una corrida
 
 LINESTYLES: tuple[str, ...] = ("-", "--", ":", "-.")
 

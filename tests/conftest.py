@@ -11,12 +11,14 @@ from pathlib import Path
 import matplotlib
 import numpy as np
 import pytest
-from PIL import Image   # PIL para guardar las imagenes falsas como archivos
+from PIL import Image  # PIL para guardar las imagenes falsas como archivos
 
 matplotlib.use("Agg")   # dibuja figuras en memoria sin abrir ventanas.  los tests de figuras fallarian en un computador sin pantalla
 
 
-from nubes.config import RunConfig  # noqa: E402    le dice a Ruff que no se queje de que no estén al principio del archivo
+from nubes.config import (
+    RunConfig,  # noqa: E402    le dice a Ruff que no se queje de que no estén al principio del archivo
+)
 from nubes.preparacion import CODES, prepare  # noqa: E402
 
 IMAGES_PER_CLASS = 14     # Cuántas imágenes falsas se crean por clase

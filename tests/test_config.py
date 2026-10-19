@@ -6,8 +6,10 @@ from pathlib import Path
 
 import pytest
 
-from nubes.config import RunConfig, diff      # Lo que se prueba.
-from nubes.utilidades import PROJECT_ROOT     # raiz del proyecto, para comparar rutas y encontrar configs/
+from nubes.config import RunConfig, diff  # Lo que se prueba.
+from nubes.utilidades import (
+    PROJECT_ROOT,  # raiz del proyecto, para comparar rutas y encontrar configs/
+)
 
 
 def test_defaults_are_valid_and_paths_absolute():

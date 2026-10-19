@@ -72,4 +72,25 @@ def test_only_true_copies_are_grouped(tmp_path: Path):
         (tmp_path / code).mkdir()  # crea la carpeta correspondiente a cada clase
         for i in range(3):
             level += 5  # aumenta la intensidad para generar imágenes diferentes
-            pixels = np.clip(level + rng.normal(0, 6, (128, 128, 3)), 0, 255).astype(np.uint8)  # genera una imagen o
+            pixels = np.clip(level + rng.normal(0, 6, (128, 128, 3)), 0, 255).astype(np.uint8)  # genera una imagen casi uniforme, parecida a un cielo liso
+            Image.fromarray(pixels).save(tmp_path / code / f"{i}.png")  # guarda la imagen en la carpeta de la clase
+    Image.open(tmp_path / "St" / "0.png").save(tmp_path / "St" / "copia.jpg", quality=90)  # crea una copia real recomprimida como jpg
+    grouped = assign_groups(scan_images(tmp_path), tmp_path)  # hace el inventario y agrupa los duplicados
+    sizes = grouped.groupby("group").size()  # cuenta cuántas imágenes tiene cada grupo
+    assert sizes.max() == 2 and (sizes > 1).sum() == 1  # verifica que solo exista un grupo de dos imágenes
+    pair = grouped[grouped["group"] == sizes.idxmax()]["path"].tolist()  # obtiene las rutas de ese grupo
+    assert sorted(pair) == ["St/0.png", "St/copia.jpg"]  # verifica que el grupo sea la original y su copia
+
+
+def test_macos_metadata_is_ignored(tmp_path: Path):
+    for code in CODES:
+        for root in (tmp_path / "CCSN_v2", tmp_path / "__MACOSX" / "CCSN_v2"):
+            (root / code).mkdir(parents=True)  # crea las carpetas reales y las de macos
+        Image.new("RGB", (32, 32), (10 * len(code), 90, 200)).save(
+            tmp_path / "CCSN_v2" / code / "a.jpg"
+        )  # guarda una imagen real por clase
+        (tmp_path / "CCSN_v2" / code / "._a.jpg").write_bytes(b"\x00\x05\x16\x07")  # crea un archivo basura de macos junto a la imagen
+        (tmp_path / "__MACOSX" / "CCSN_v2" / code / "._a.jpg").write_bytes(b"\x00\x05\x16\x07")  # crea otro dentro de __MACOSX
+    frame = scan_images(tmp_path)  # hace el inventario de imágenes
+    assert len(frame) == len(CODES)  # verifica que solo se cuenten las imágenes reales
+    assert not frame["path"].str.contains("MACOSX|/\\._").any()  # verifica que no entre ningún archivo de macos

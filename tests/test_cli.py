@@ -1,8 +1,8 @@
 from pathlib import Path
 
-import pytest    #para esperar errores y capturar lo que se imprime
+import pytest  #para esperar errores y capturar lo que se imprime
 
-from nubes.cli import main     # funcion principal de la linea de comandos
+from nubes.cli import main  # funcion principal de la linea de comandos
 
 
 def test_full_cli_flow(raw_dir: Path, tmp_path: Path, capsys: pytest.CaptureFixture):    # capsys captura lo que se imprime en pantalla

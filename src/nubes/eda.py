@@ -6,12 +6,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from PIL import Image           #abre y redimensiona imagenes
-from sklearn.metrics import confusion_matrix       
-from sklearn.neighbors import KNeighborsClassifier         #k vecinos cercanos
-from sklearn.preprocessing import StandardScaler     #estandariza
+from PIL import Image  #abre y redimensiona imagenes
+from sklearn.metrics import confusion_matrix
+from sklearn.neighbors import KNeighborsClassifier  #k vecinos cercanos
+from sklearn.preprocessing import StandardScaler  #estandariza
 
-from nubes.preparacion import CLASSES, CODES      #las fichas de las clases y sus codigos
+from nubes.preparacion import CLASSES, CODES  #las fichas de las clases y sus codigos
 
 
 def class_table() -> pd.DataFrame:

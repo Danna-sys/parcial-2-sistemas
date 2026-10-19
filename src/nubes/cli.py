@@ -2,16 +2,18 @@
 
 from __future__ import annotations
 
-import argparse    #esta lee argumentos de la terminal
-from collections.abc import Sequence      #anota los aargumentos
-from pathlib import Path 
+import argparse  #esta lee argumentos de la terminal
+from collections.abc import Sequence  #anota los aargumentos
+from pathlib import Path
 
-from nubes.config import RunConfig       #corridas
-from nubes.utilidades import PROJECT_ROOT, resolve_path     #raiz del proyecto y conversión de rutas
+from nubes.config import RunConfig  #corridas
+from nubes.utilidades import PROJECT_ROOT, resolve_path  #raiz del proyecto y conversión de rutas
 
 
 def _preparar(args: argparse.Namespace) -> None:
-    from nubes.preparacion import prepare   #importampos a dentro para que no se carguen cosas innecesariamente
+    from nubes.preparacion import (
+        prepare,  #importampos a dentro para que no se carguen cosas innecesariamente
+    )
 
     stats = prepare(              #este corre la preparacion como tal con los argumentos de la terminal
         resolve_path(args.source), resolve_path(args.output), args.split_seed, args.overwrite
@@ -27,7 +29,7 @@ def _preparar(args: argparse.Namespace) -> None:
 
 
 def _train(args: argparse.Namespace) -> None:
-    from nubes.experimento import run         # imprime la funcion de corrida
+    from nubes.experimento import run  # imprime la funcion de corrida
 
     config = RunConfig.from_toml(args.config)            #lee el toml correspondiente para configurar
     if args.epochs is not None:                  # si --epochs no en vacio, se ntercambia por las epocas del toml
@@ -42,7 +44,7 @@ def _train(args: argparse.Namespace) -> None:
 
 
 def _test(args: argparse.Namespace) -> None:
-    from nubes.experimento import evaluate_test     #importa el test final
+    from nubes.experimento import evaluate_test  #importa el test final
 
     report = evaluate_test(resolve_path(args.run))    # se evalua la corrida en test
     print(
@@ -51,7 +53,12 @@ def _test(args: argparse.Namespace) -> None:
 
 
 def _resumen(args: argparse.Namespace) -> None:
-    from nubes.resumen import aggregate, load_experiment, runs_table, to_markdown     #funciones que resumen
+    from nubes.resumen import (  #funciones que resumen
+        aggregate,
+        load_experiment,
+        runs_table,
+        to_markdown,
+    )
 
     results = load_experiment(resolve_path(args.runs_dir), args.experiment)   # muestra todas las corridas del experimento
     print(to_markdown(aggregate(runs_table(results))))      #muestra media y desviacion enuna tabla de markdown

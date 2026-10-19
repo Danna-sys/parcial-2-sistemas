@@ -41,16 +41,16 @@ Los resultados disponibles corresponden a la corrida de línea base con semilla 
 | Dato | Valor |
 |---|---|
 | Época del mínimo de `val_loss` | 26 |
-| `val_loss` y `val_acc` en esa época | aproximadamente 1.79 y 0.47 |
+| `val_loss` y `val_acc` en esa época | 1.790 y 0.414 |
 | Comportamiento después del mínimo | la pérdida de validación fluctúa y aumenta ligeramente al final, mientras la pérdida de entrenamiento sigue disminuyendo |
 | Épocas elegidas para todas las corridas | 30 como presupuesto inicial común |
-| Tiempo por época y equipo usado | pendiente de registrar con una medición fiable del tiempo y las características del equipo |
+| Tiempo por época y equipo usado | 222 segundos en promedio, en CPU y sin GPU |
 
 ## Observaciones de la línea base
 
 La corrida con semilla 11 obtuvo una accuracy de validación de 0.4136 y un generalization gap de 0.0827. El rendimiento varió entre clases: Cc, Ct y Cb presentaron mejores valores de recall que Ac, Cs y St. La matriz de confusión mostró errores frecuentes entre algunas clases, como Ac/Cc y Ns/Sc.
 
-Estos resultados sirven como referencia inicial para evaluar los experimentos posteriores. Las conclusiones sobre la variabilidad del modelo deberán basarse en las tres semillas previstas.
+Estos resultados sirven como referencia para describir el comportamiento de la red. La línea base se corrió con una sola semilla, así que no conocemos su variabilidad. La variabilidad entre semillas se midió en los experimentos.
 
 ## Hipótesis y experimento: el horizonte como pista
 
@@ -73,4 +73,5 @@ En cada comparación se mantendrán fijas las demás variables. Se analizarán e
 | 2026-10-14 | se mantiene el piloto de 60 épocas | se busca decidir el presupuesto común a partir de la evolución de las métricas de validación | ninguna |
 | 2026-10-15 | se interrumpe el piloto de 60 épocas y se prepara una versión corta de 5 épocas | el entrenamiento tardaba demasiado en el computador disponible | ninguna |
 | 2026-10-17 | se recuperan los resultados guardados de la línea base de 30 épocas | se evita repetir el entrenamiento y se aprovecha la corrida existente con semilla 11 | ninguna |
-| 2026-10-18 | se establece un presupuesto inicial común de 30 épocas | la corrida recuperada alcanzó el mínimo de `val_loss` en la época 26 | pendiente de confirmar las corridas afectadas antes de comparar configuraciones |
+| 2026-10-18 | se establece un presupuesto inicial común de 30 épocas | la corrida recuperada alcanzó el mínimo de `val_loss` en la época 26 | ninguna |
+| 2026-10-18 | los experimentos de volteo y cabeza se corren con 5 épocas y tres semillas en vez de 30 épocas | con unos 222 segundos por época en CPU, las 12 corridas de 30 épocas no alcanzaban a terminar antes de la entrega | ninguna. Cada experimento se compara solo contra su propia referencia de 5 épocas y no contra la línea base de 30 |

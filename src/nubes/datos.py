@@ -8,9 +8,11 @@ from typing import Any
 
 import pandas as pd
 import torch
-from PIL import Image      #PIL abre imagenes
-from torch.utils.data import DataLoader, Dataset    #batcches
-from torchvision import transforms          #opera sobre las imagenes: redimensionar, voltear, normalizar, etc.
+from PIL import Image  #PIL abre imagenes
+from torch.utils.data import DataLoader, Dataset  #batcches
+from torchvision import (
+    transforms,  #opera sobre las imagenes: redimensionar, voltear, normalizar, etc.
+)
 
 from nubes.config import AUGMENTATIONS, RunConfig
 from nubes.preparacion import MANIFEST_NAME, SPLITS, STATS_NAME

@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
-import tomllib           #este es un lector de tomls
+import tomllib  #este es un lector de tomls
 from dataclasses import asdict, dataclass, field, fields, replace
 from pathlib import Path
 from typing import Any
 
-from nubes.utilidades import DEVICES, PROJECT_ROOT, resolve_path    #reutilizamos los devices válidos, la raiz del proyecto y la funcion de rutas
+from nubes.utilidades import (  #reutilizamos los devices válidos, la raiz del proyecto y la funcion de rutas
+    DEVICES,
+    PROJECT_ROOT,
+    resolve_path,
+)
 
 AUGMENTATIONS: tuple[str, ...] = ("none", "flip", "flip_crop", "flip_crop_color", "flip_hv")     #se definen los argumentos válidos
 POOLINGS: tuple[str, ...] = ("max", "avg", "stride")     #se definen las opciones validas de pooling

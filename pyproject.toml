@@ -53,3 +53,5 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+# los comentarios línea a línea que pide el curso hacen que muchas líneas pasen de 100 caracteres
+ignore = ["E501"]

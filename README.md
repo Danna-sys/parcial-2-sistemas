@@ -34,7 +34,8 @@ EDA → observación → pregunta → hipótesis → experimento → evidencia �
 |---|---|
 | Entender el dato | `notebooks/01_eda.ipynb` |
 | Línea base y análisis de errores | `notebooks/02_linea_base.ipynb` |
-| Un experimento controlado | `notebooks/03_experimentos.ipynb` |
+| Experimento 1: volteo vertical | `notebooks/03_experimento_volteo.ipynb` |
+| Experimento 2: cabeza que conserva la posición | `notebooks/03_experimento_cabeza.ipynb` |
 | Decisiones fijas del protocolo | `docs/PROTOCOLO.md` |
 | Observaciones, pregunta, hipótesis y veredictos | `docs/BITACORA.md` |
 
@@ -73,10 +74,11 @@ El split es estratificado por clase con `split_seed = 2026`. Las imágenes que s
 ```powershell
 uv run pytest -q
 uv run ruff check .
-uv run ruff format --check .
 ```
 
 Los tests fabrican un CCSN sintético. No necesitan el dataset ni GPU.
+
+El código está comentado línea a línea, así que no se aplica `ruff format` y Ruff no revisa el largo de las líneas.
 
 ## Entrenar
 
@@ -168,4 +170,6 @@ Lo que cambia responde a que CCSN es otro problema:
 
 ## Estado
 
-El protocolo y los resultados están en `docs/`. Las secciones marcadas *por escribir* se completan con las corridas reales.
+Proyecto terminado. La pregunta, la hipótesis, los resultados y la evaluación en test están en `docs/BITACORA.md`. Las decisiones del protocolo y sus cambios están en `docs/PROTOCOLO.md`.
+
+La línea base se entrenó 30 épocas con una semilla. Por tiempo de cómputo, los dos experimentos se entrenaron 5 épocas con tres semillas, y cada uno se compara solo contra su propia referencia.
